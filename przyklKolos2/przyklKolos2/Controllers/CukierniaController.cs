@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using przyklKolos2.DTOs.Requests;
 using przyklKolos2.Exceptions;
 using przyklKolos2.Services;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace przyklKolos2.Controllers
 {
-    [Route("api/orders")]
+    
     [ApiController]
     public class CukierniaController : ControllerBase
     {
@@ -17,7 +18,7 @@ namespace przyklKolos2.Controllers
         {
             _dbService = service;
         }
-
+        [Route("api/orders")]
         [HttpGet("{nazwisko:string}")]
         public IActionResult GetZamowienia(string nazwisko)
         {
@@ -30,5 +31,24 @@ namespace przyklKolos2.Controllers
                 return NotFound(exc.Message);
             }
         }
+        [HttpPost("{id")]
+        [Route("api/clients/{id}/orders")]
+        public IActionResult AddZamowienie(int id, AddZamowienieRequest request)
+        {
+            try
+            {
+                _dbService.AddZamowienie(id , request);
+                return Ok();
+            }
+            catch (NotFoundClientException exc)
+            {
+                return NotFound(exc.Message);
+            }
+            catch (NotFoundWyrobException exc)
+            {
+                return NotFound(exc.Message);
+            }
+        }
+
     }
 }
